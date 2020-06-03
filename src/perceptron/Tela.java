@@ -7,15 +7,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
+
 public class Tela extends JPanel implements MouseListener {
 
     int[][] entrada = new int[5][3];
     Rede rede;
+
+    public Tela() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
+                entrada[i][j] = 0;
+            }
+        }
+        ;
+    }
     
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-
+        g2.setColor(Color.WHITE);
+        g2.fillRect(0, 0, 400, 400);
         int x = 80;
         int xx = 80;
         int y = 133;
@@ -35,7 +46,12 @@ public class Tela extends JPanel implements MouseListener {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 3; j++) {
                 if (entrada[i][j] != 0) {
+                    g2.setColor(Color.BLACK);
                     g2.fill(new Rectangle2D.Double(j * yy, i * xx, yy, xx));
+                } else {
+                    g2.setColor(Color.WHITE);
+                    g2.fill(new Rectangle2D.Double(1 - (j * yy), 1 - (i * xx), 1 - yy, 1 - xx));
+
                 }
             }
         }
@@ -43,65 +59,66 @@ public class Tela extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int linha = e.getY() / 80;
-        int coluna = e.getX() / 133;
-        //System.out.println(linha + " : " + coluna);
-        entrada[linha][coluna] = 1;
+        int linha;
+        int coluna;
+        if (e.getButton() != 2) {
+            if (e.getY() < 102) {
+                linha = 0;
+            } else if (e.getY() >= 102 && e.getY() <= 183) {
+                linha = 1;
+            } else if (e.getY() > 183 && e.getY() < 262) {
+                linha = 2;
+            } else if (e.getY() >= 262 && e.getY() <= 342) {
+                linha = 3;
+            } else {
+                linha = 4;
+            }
+
+            if (e.getX() < 136) {
+                coluna = 0;
+            } else if (e.getX() > 269) {
+                coluna = 2;
+            } else {
+                coluna = 1;
+            }
+
+            if (e.getButton() == 3) {
+                entrada[linha][coluna] = 0;
+            } else {
+                entrada[linha][coluna] = 1;
+            }
+        }
         int ent[] = new int[16];
         ent[15] = 1;
         int k = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 3; j++) {
-                if(entrada[i][j] != 0){
+                if (entrada[i][j] != 0) {
                     ent[k++] = entrada[i][j];
-                }
-                else{
+                } else {
                     ent[k++] = 0;
                 }
             }
         }
-        if(e.getButton() == 3){
-        int res[] = rede.teste(ent);
-        
-        for (int i = 0; i < 10; i++) {
-            boolean v = false;
-            for (int j = 0; j < 3; j++) {
-                if(res[j] == rede.target[i][j]){
-                    v = true;
+        if (e.getButton() == 2) {
+            int res[] = rede.teste(ent);
+
+            for (int i = 0; i < rede.qntLinha; i++) {
+                boolean v = false;
+                for (int j = 0; j < rede.qntColuna; j++) {
+                    if (res[j] == rede.target[i][j]) {
+                        v = true;
+                    } else {
+                        v = false;
+                        break;
+                    }
                 }
-                else{
-                    v = false;
+                if (v == true) {
+                    System.out.println("Numero: "+i);
                     break;
                 }
             }
-            if(v == true){
-                System.out.println(i);
-                break;
-            }
         }
-        }
-        /*int comparar[] = {1,1,1,1,0,1,1,1,1,0,0,1,1,1,1};
-        int t = 0;
-        boolean confere = false;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (comparar[t] == entrada[i][j]) {
-                    confere = true;
-                }
-                else{
-                    confere = false;
-                    break;
-                }
-                t++;
-            }
-        }
-        if(confere && t == 15){
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 3; j++) {
-                    System.out.print(entrada[i][j]+ " ");
-                }
-            }
-        }*/
         repaint();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
