@@ -3,9 +3,9 @@ package perceptron;
 public class Rede {
 
     int qntLinha = 10;
-    int qntColuna = 4;
+    int qntColuna = 3;
     int qntEntrada = 16;
-    int qntNeuronio = 4;
+    int qntNeuronio = 3;
 
     int[][] entrada = {
     {0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
@@ -22,16 +22,18 @@ public class Rede {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}};
 
     int[][] target = {
-    {1,1,1,1},
-    {1,1,1,-1},
-    {1,1,-1,1},
-    {1,1,-1,-1},
-    {1,-1,1,1},
-    {1,-1,1,-1},
-    {1,-1,-1,1},
-    {1,-1,-1,-1},
-    {-1,1,1,1},
-    {-1,1,1,-1}};
+    {1,1,1},
+    {1,1,0},
+    {1,0,-1},
+    {0,0,1},
+    {0,-1,0},
+    {0,-1,-1},
+    {-1,0,-1},
+    {-1,1,0},
+    {-1,1,-1},
+    {1,0,1}};
+
+
 
     int[][] f = new int[qntLinha][qntColuna];
     Neuronio neuronio[] = new Neuronio[qntNeuronio];
@@ -41,7 +43,7 @@ public class Rede {
         this.limiar = limiar;
         this.taxaAprendizado = taxaAprendizado;
         for (int i = 0; i < qntNeuronio; i++) {
-            neuronio[i] = new Neuronio(entrada, 4, 1, qntLinha, qntColuna, qntEntrada);
+            neuronio[i] = new Neuronio(entrada, 2, 1, qntLinha, qntColuna, qntEntrada);
         }
     }
 
