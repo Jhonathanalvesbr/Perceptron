@@ -50,6 +50,7 @@ public class Rede {
         boolean varia;
         do {
             varia = false;
+            System.out.println("Epoca: " + epocas);
             for (int i = 0; i < qntLinha; i++) {
                 for (int j = 0; j < qntNeuronio; j++) {
                     neuronio[j].somatorio(i);
@@ -67,6 +68,7 @@ public class Rede {
                         neuronio[j].atualizaPesos(i, target[i][j], f[i][j]);
                     }
                 }
+                
                 for (int j = 0; j < qntColuna; j++) {
                     System.out.print(f[i][j] + " ");
                 }
