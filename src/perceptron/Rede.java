@@ -59,7 +59,6 @@ public class Rede {
                 }
                 for (int k = 0; k < qntColuna; k++) {
                     if (f[i][k] != target[i][k]) {
-                        //neuronio[k].atualizaPesos(i, target[i][k], f[i][k]);
                         varia = true;
                     }
                 }
@@ -75,7 +74,6 @@ public class Rede {
             }
             System.out.println("");
             epocas++;
-            //System.out.println(neuronio[0].peso[0]);
         } while (varia);
     }
 
